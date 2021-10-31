@@ -14,8 +14,12 @@ export default function App() {
   const [delivery_address, setD_Addr] = useState('');
   const [contact_number, setC_Numb] = useState('');
   const [contact_person, setC_Pers] = useState('');
+  const [data_table, dataTable] = useState('');
 
-  useEffect(async () => {});
+  useEffect(async () => {
+    const { data, error } = await supabase.from('customer_address').select();
+    dataTable(data);
+  });
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -29,17 +33,17 @@ export default function App() {
       },
     ]);
     if (data) {
-      setUser("");
-      setD_Addr("");
-      setC_Numb("");
-      setC_Pers("");
+      setUser('');
+      setD_Addr('');
+      setC_Numb('');
+      setC_Pers('');
     }
   };
   return (
     <div class="container mt-2">
       <form onSubmit={handleSubmit}>
         <div class="mb-3">
-          <label for="delivery_address" class="form-label">
+          <label htmlFor="delivery_address" class="form-label">
             Delivery Address
           </label>
           <textarea
@@ -53,7 +57,7 @@ export default function App() {
           </textarea>
         </div>
         <div class="mb-3">
-          <label for="contact_number" class="form-label">
+          <label htmlFor="contact_number" class="form-label">
             Contact Number
           </label>
           <input
@@ -66,7 +70,7 @@ export default function App() {
           />
         </div>
         <div class="mb-3">
-          <label for="contact_person" class="form-label">
+          <label htmlFor="contact_person" class="form-label">
             Contact Person
           </label>
           <input
@@ -85,9 +89,18 @@ export default function App() {
           Submit
         </button>
       </form>
-      <br/>
-
+      <br />
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">User Id</th>
+            <th scope="col">Delivery Address</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">Contact Person</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
-    
   );
 }
