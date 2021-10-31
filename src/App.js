@@ -18,7 +18,18 @@ export default function App() {
 
   useEffect(async () => {
     const { data, error } = await supabase.from('customer_address').select();
-    dataTable(data);
+    dataTable(
+      data.map((cst_addr, index) => {
+        return (
+          <tr key={cst_addr.user_id}>
+            <td>{cst_addr.user_id}</td>
+            <td>{cst_addr.delivery_address}</td>
+            <td>{cst_addr.contact_number}</td>
+            <td>{cst_addr.contact_person}</td>
+          </tr>
+        );
+      })
+    );
   });
 
   const handleSubmit = async (evt) => {
@@ -99,7 +110,20 @@ export default function App() {
             <th scope="col">Contact Person</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {data_table}
+          {/* {data_table[0].map((cst_addr, index) => {
+            const { id_usr, del_addr, con_num, con_per } = cst_addr;
+            return (
+              <tr key={id_usr}>
+                <td>{id_usr}</td>
+                <td>{del_addr}</td>
+                <td>{con_num}</td>
+                <td>{con_per}</td>
+              </tr>
+            );
+          })} */}
+        </tbody>
       </table>
     </div>
   );
